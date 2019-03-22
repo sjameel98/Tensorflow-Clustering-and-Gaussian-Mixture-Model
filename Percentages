@@ -1,0 +1,38 @@
+K = 1
+Percentage of points in cluster 0: 100.0%
+Training loss = 25588.998981090932 | Validation loss = 12870.103884111053
+
+
+K = 2
+Percentage of points in cluster 0: 49.53%
+Percentage of points in cluster 1: 50.470000000000006%
+Training loss = 6243.333493207539 | Validation loss = 2960.668710507107
+
+
+
+
+K = 3
+Percentage of points in cluster 0: 23.82%
+Percentage of points in cluster 1: 38.21%
+Percentage of points in cluster 2: 37.97%
+Training loss = 3489.186413189692 | Validation loss = 1629.42836134549
+
+
+
+K = 4
+Percentage of points in cluster 0: 13.530000000000001%
+Percentage of points in cluster 1: 12.030000000000001%
+Percentage of points in cluster 2: 37.31%
+Percentage of points in cluster 3: 37.13%
+Training loss = 2320.153153387243 | Validation loss = 1054.5379230613612
+
+
+
+
+K = 5
+Percentage of points in cluster 0: 7.470000000000001%
+Percentage of points in cluster 1: 8.57%
+Percentage of points in cluster 2: 35.89%
+Percentage of points in cluster 3: 36.35%
+Percentage of points in cluster 4: 11.72%
+Training loss = 1961.300248197986 | Validation loss = 918.9565661517465
