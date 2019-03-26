@@ -66,6 +66,8 @@ def kmeans(epochs, clusters, step, data, val_data):
         clusterID, count = np.unique(cluster_class, return_counts=True)
         counts = dict(zip(clusterID, count))
 
+        print(clusterID,count)
+
         for i in range(K):
             p = counts[i]/N * 100
             print("Percentage of points in cluster {}: {}%".format(i, p))
@@ -109,7 +111,7 @@ if __name__ == "__main__":
     [num_pts, dim] = np.shape(data)
 
     # For Validation set
-    is_valid = True
+    is_valid = False
     if is_valid:
       valid_batch = int(num_pts / 3.0)
       np.random.seed(45689)
@@ -120,9 +122,9 @@ if __name__ == "__main__":
 
     epochs = 600
     lr = 0.01
-    K = 5
+    K = 2
 
 
 
 
-    kmeans(epochs = epochs, clusters = K, step = lr, data = data, val_data = val_data)
+    kmeans(epochs = epochs, clusters = K, step = lr, data = data, val_data = data)

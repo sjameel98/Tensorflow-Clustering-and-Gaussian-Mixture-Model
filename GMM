@@ -1,0 +1,39 @@
+K = 5
+Training loss = 11505.443844046942 | Validation loss = 5630.744237501355
+Final mu: [[ 0.0153888  -1.43548187]
+ [ 0.59531736 -1.73735106]
+ [ 1.29753365  0.31012234]
+ [ 0.33310067 -1.69404872]
+ [-1.10367272 -3.30715643]]
+% of points belonging to cluster 0 is: 32.62336883155842%
+% of points belonging to cluster 1 is: 0.0599970001499925%
+% of points belonging to cluster 2 is: 34.108294585270734%
+% of points belonging to cluster 3 is: 0%
+% of points belonging to cluster 4 is: 33.20833958302085%
+
+
+
+K = 4
+
+Training loss = 11505.832800785663 | Validation loss = 5629.66957579087
+Final mu: [[ 0.16802086 -1.57892802]
+ [ 1.29761155  0.31023906]
+ [-1.10380409 -3.30722922]
+ [-0.0188003  -1.30320389]]
+% of points belonging to cluster 0 is: 32.72836358182091%
+% of points belonging to cluster 1 is: 34.093295335233236%
+% of points belonging to cluster 2 is: 33.178341082945856%
+% of points belonging to cluster 3 is: 0%
+
+
+K = 2
+Training loss = 16155.742413818527 | Validation loss = 7987.787755825382
+Final mu: [[ 1.29410207  0.3062504 ]
+ [-0.49442486 -2.42471677]]
+% of points belonging to cluster 0 is: 34.3932803359832%
+% of points belonging to cluster 1 is: 65.6067196640168%
+
+K = 1
+Training loss = 23266.09538520167 | Validation loss = 11652.235514611031
+Final mu: [[ 0.11896894 -1.47994143]]
+% of points belonging to cluster 0 is: 100.0%

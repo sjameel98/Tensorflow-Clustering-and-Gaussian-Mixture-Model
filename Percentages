@@ -36,3 +36,31 @@ Percentage of points in cluster 2: 35.89%
 Percentage of points in cluster 3: 36.35%
 Percentage of points in cluster 4: 11.72%
 Training loss = 1961.300248197986 | Validation loss = 918.9565661517465
+
+
+
+#####################################################W/0 VAL DATA ##########################################
+K = 5
+Percentage of points in cluster 0: 7.470000000000001%
+Percentage of points in cluster 1: 8.57%
+Percentage of points in cluster 2: 35.89%
+Percentage of points in cluster 3: 36.35%
+Percentage of points in cluster 4: 11.72%
+
+K = 4
+Percentage of points in cluster 0: 13.530000000000001%
+Percentage of points in cluster 1: 12.030000000000001%
+Percentage of points in cluster 2: 37.31%
+Percentage of points in cluster 3: 37.13%
+
+K = 3
+Percentage of points in cluster 0: 23.82%
+Percentage of points in cluster 1: 38.21%
+Percentage of points in cluster 2: 37.97%
+
+K = 2
+Percentage of points in cluster 0: 49.53%
+Percentage of points in cluster 1: 50.470000000000006%
+
+K = 1
+Percentage of points in cluster 0: 100.00%

@@ -33,6 +33,10 @@ def log_GaussPDF(X, mu, sigma):
     # TODO
     D = X.shape[1]
 
+    #distance = distanceFunc(X, mu)
+    #sigma = tf.transpose(sigma)
+    #m = tf.cast(D, dtype=tf.float64) * tf.log(sigma*tf.sqrt(2*tf.cast(np.pi, dtype=tf.float64))) + 1/(2*sigma*sigma) * distance
+    #return -m
     distance = distanceFunc(X, mu)
 
     invsigma = tf.math.reciprocal(sigma)
@@ -48,7 +52,13 @@ def log_GaussPDF(X, mu, sigma):
     mat = mat + tf.transpose(coeff)
 
     return mat
-    '''
+
+
+
+
+    
+'''
+
 
 def log_GaussPDF(X, mu, sigma):
     # Inputs
@@ -89,8 +99,8 @@ def log_GaussPDF(X, mu, sigma):
     mat = -(1 / 2) * tf.multiply(tf.math.reciprocal(sigma2_mat), D)
 
     return tf.squeeze(coeff) + mat
-
 '''
+
 
 def log_posterior(log_PDF, log_pi):
     # Input
@@ -103,6 +113,9 @@ def log_posterior(log_PDF, log_pi):
     # TODO
     coeff = tf.squeeze(log_pi) + log_PDF
     return coeff - tf.expand_dims(hlp.reduce_logsumexp(coeff), 1)
+    #den = tf.expand_dims(hlp.reduce_logsumexp(coeff), 1)
+    #return coeff/den
+
 
 
 
@@ -114,8 +127,10 @@ if __name__ == "__main__":
     [num_pts, dim] = np.shape(data)
     # print("hello")
 
+    val_data = data
+
     # For Validation set
-    is_valid = False
+    is_valid = True
 
     if is_valid:
         valid_batch = int(num_pts / 3.0)
@@ -125,21 +140,21 @@ if __name__ == "__main__":
         val_data = data[rnd_idx[:valid_batch]]
         data = data[rnd_idx[valid_batch:]]
 
-    epochs = 600
-    lr = 0.01
+    epochs = 5000
+    lr = 0.005
     K = 5
 
     x = tf.placeholder(name = 'x', dtype = tf.float64, shape = (None, data.shape[1]))
     mu = tf.get_variable(name = 'mean', dtype=tf.float64, shape=(K, data.shape[1]),
-                         initializer=tf.initializers.random_normal(seed=0))
+                         initializer=tf.initializers.random_normal(seed=18786708))
 
     stdvec = tf.get_variable(name = 'std', dtype=tf.float64, shape=(K, 1),
-                         initializer=tf.initializers.random_normal(seed=0))
+                         initializer=tf.initializers.random_normal(seed=366901768))
 
     prior = tf.get_variable(name = 'pi', dtype=tf.float64, shape=(K, 1),
-                         initializer=tf.initializers.random_normal(seed=0))
+                         initializer=tf.initializers.random_normal(seed=1566557))
 
-    sigma = tf.exp(prior)
+    sigma = tf.exp(stdvec)
     log_gauss_pdf = log_GaussPDF(x, mu, sigma)
     log_prior = hlp.logsoftmax(prior) #To ensure that priors are normalized
     log_post = log_posterior(log_gauss_pdf, log_prior)
@@ -158,9 +173,10 @@ if __name__ == "__main__":
         for epoch in range(epochs):
             sess.run(optimizer, feed_dict={x: data})
             trainingloss = sess.run(loss, feed_dict={x: data})
+            validloss = sess.run(loss, feed_dict={x: val_data})
             train_loss.append(trainingloss)
 
-            print("Training Loss: {}".format(trainingloss))
+            print('Training loss = {} | Validation loss = {}'.format(trainingloss, validloss))
 
         mu_after_training = sess.run(mu)
         sigma_after_training = sess.run(sigma)
@@ -173,7 +189,7 @@ if __name__ == "__main__":
         plt.ylabel('Training Loss')
 
         plt.title("Training Loss, K={}".format(K))
-        plt.savefig("Loss{}Clusters".format(K))
+        #plt.savefig("LossGMM{}Clusters".format(K))
         plt.show()
 
         #####CLUSTERS - CHANGE THIS
@@ -181,34 +197,38 @@ if __name__ == "__main__":
         final_mu = mu_after_training
         final_posterior = posterior_after_training
 
+        labels = np.argmax(final_posterior, axis=1)
+        unique, counts = np.unique(labels, return_counts=True)
+        dictionary = dict(zip(unique, counts))
 
-        data_cluster_mat = np.column_stack((data, np.ones((data.shape[0], 1))))
 
-        for i, point in enumerate(data_cluster_mat):
-            probabilities = final_posterior[i]
-            point[2] = np.argmax(probabilities) + 1
-
-        unique, counts = np.unique(data_cluster_mat[:, -1], return_counts=True)
-        dict_counts = dict(zip(unique, counts))
-        print(dict_counts)
-
-        for cluster in range(1, K + 1):
+        for clusters in range(K):
 
             try:
-                percentage = dict_counts[cluster] * 100 / data.shape[0]
-                print('The percentage of points belonging to cluster {} is: {}% '.format(cluster, percentage))
+                p = dictionary[clusters]* 100 / data.shape[0]
+                print('% of points belonging to cluster {} is: {}% '.format(clusters, p))
+            except:
+                print('% of points belonging to cluster {} is: 0% '.format(clusters))
 
-            except KeyError:
-                print('Cluster {} has no points belonging to it'.format(cluster))
+
+
 
         x_mu, y_mu = final_mu.T
-        x, y, cluster_label = data_cluster_mat.T
-        plt.scatter(x, y, c=cluster_label, label='data')
-        plt.scatter(x_mu, y_mu, cmap='r', marker='X', label='centroids', c='r')
+
+
+        plt.scatter(data[:, 0], data[:, 1], c=labels, label='Data Points', s=25, alpha=0.8, cmap='Dark2')
+
+        mark = ['o', '+', 'h', 'd', '*', 'P']
+        for i in range(K):
+            plt.scatter(final_mu[i, 0], final_mu[i, 1], marker=mark[i], label='Cluster {} Mean'.format(i), s=100, c='k')
+
+        #plt.scatter(data[:, 0], data[:, 1], c=labels, label='data', s=10, alpha=0.8)
+        #plt.scatter(final_mu[:, 0], final_mu[:, 1], cmap='r', marker='X', label='means', c='r')
         plt.xlabel('x')
         plt.ylabel('y')
-        plt.title('Result of running Gaussian Mixture Algorithm with K = {}'.format(K))
+        plt.title('GMM, k = {}'.format(K))
         plt.legend()
+        plt.savefig("GMM_{}Clusters".format(K))
         plt.show()
 
 
