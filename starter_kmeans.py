@@ -111,7 +111,7 @@ if __name__ == "__main__":
     [num_pts, dim] = np.shape(data)
 
     # For Validation set
-    is_valid = False
+    is_valid = True
     if is_valid:
       valid_batch = int(num_pts / 3.0)
       np.random.seed(45689)
@@ -122,7 +122,7 @@ if __name__ == "__main__":
 
     epochs = 600
     lr = 0.01
-    K = 2
+    K = 3
 
 
 
