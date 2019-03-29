@@ -54,54 +54,6 @@ def log_GaussPDF(X, mu, sigma):
     return mat
 
 
-
-
-    
-'''
-
-
-def log_GaussPDF(X, mu, sigma):
-    # Inputs
-    # X: N X D
-    # mu: K X D
-    # sigma: K X 1
-    # log_pi: K X 1
-    # D: N X K
-
-    # Outputs:
-    # log Gaussian PDF N X K
-
-    # 2.1.1 Log PDF for cluster k
-
-    # compute pairwise squared distance as in part 1.1
-
-    na = tf.reduce_sum(tf.square(X), 1)
-    nb = tf.reduce_sum(tf.square(mu), 1)
-
-    # na is N x K, nb is N x K
-    # broadcast na along columns, broadcast nb along rows
-    na = tf.reshape(na, [-1, 1])
-    nb = tf.reshape(nb, [1, -1])
-
-    # return pairwise euclidean difference matrix
-    D = na - 2 * tf.matmul(X, mu, False, True) + nb  # N x K
-
-    sigma2_mat = tf.ones([tf.shape(X)[0], 1], dtype=tf.float64) * tf.reshape(tf.square(sigma), [1,
-                                                                                                -1])  # square to get variances, then reshape into row tensor
-
-    coeff_1 = -(tf.shape(X)[0] / 2) * tf.log(2 * tf.cast(np.pi, dtype=tf.float64))  # 1 X 1
-
-    coeff_2 = -(1 / 2) * tf.log(
-        tf.pow(sigma, tf.cast(tf.fill([tf.shape(sigma)[0], 1], tf.shape(X)[1]), dtype=tf.float64)))  # K x 1
-
-    coeff = coeff_1 + coeff_2
-
-    mat = -(1 / 2) * tf.multiply(tf.math.reciprocal(sigma2_mat), D)
-
-    return tf.squeeze(coeff) + mat
-'''
-
-
 def log_posterior(log_PDF, log_pi):
     # Input
     # log_PDF: log Gaussian PDF N X K
@@ -122,8 +74,8 @@ def log_posterior(log_PDF, log_pi):
 if __name__ == "__main__":
 
     # Loading data
-    # data = np.load('data100D.npy')
-    data = np.load('data2D.npy')
+    data = np.load('data100D.npy')
+    # data = np.load('data2D.npy')
     [num_pts, dim] = np.shape(data)
     # print("hello")
 
@@ -140,9 +92,9 @@ if __name__ == "__main__":
         val_data = data[rnd_idx[:valid_batch]]
         data = data[rnd_idx[valid_batch:]]
 
-    epochs = 5000
+    epochs = 1000 #5000
     lr = 0.005
-    K = 3
+    K = 5
 
     x = tf.placeholder(name = 'x', dtype = tf.float64, shape = (None, data.shape[1]))
     mu = tf.get_variable(name = 'mean', dtype=tf.float64, shape=(K, data.shape[1]),
@@ -190,7 +142,7 @@ if __name__ == "__main__":
         plt.ylabel('Training Loss')
 
         plt.title("Training Loss, K={}".format(K))
-        plt.savefig("LossGMM{}Clusters(no_valid)".format(K))
+        plt.savefig("LossGMM{}Clusters100D".format(K))
         plt.show()
 
         #####CLUSTERS - CHANGE THIS
@@ -213,7 +165,7 @@ if __name__ == "__main__":
 
 
 
-
+'''
         x_mu, y_mu = final_mu.T
 
 
@@ -232,7 +184,7 @@ if __name__ == "__main__":
         plt.savefig("GMM_{}Clusters".format(K))
         plt.show()
 
-
+'''
 
 
 
